@@ -1,0 +1,157 @@
+html, body {
+   padding: 0;
+   margin: 0;
+}
+ html > body {
+   display: flex;
+   flex-direction: column;
+   height: 100vh;
+   overflow: hidden;
+   font-family: Tahoma, Geneva, sans-serif;
+   font-size: 13px;
+}
+ a {
+   color: #333;
+}
+
+#show-about {
+   position: absolute;
+   top: 0;
+   right: 0;
+   height: 75px;
+}
+
+#about {
+  background: rgba(0, 0, 0, 0.7);
+  display: none;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+}
+
+#about #description {
+  background: #fff;
+  border: 1px solid #000;
+  width: 50%;
+  margin: 100px auto;
+  padding: 10px;
+}
+
+ .cursor-pointer:hover {
+   cursor: pointer;
+}
+ #container {
+   display: flex;
+   flex: 1;
+   min-height: 0;
+}
+ #footer {
+   min-height: 25px;
+   background: #E8E8E8;
+   border-top: #8E8E8E 1px solid;
+   z-index: 2;
+   box-sizing: border-box;
+   padding: 5px;
+   font-size: 11px;
+   box-shadow: 0px 0px 8px rgba(0,0,0,0.2);
+}
+ #content {
+   flex: 1;
+   overflow: scroll;
+   position: relative;
+}
+ #sidebar {
+   font-size: 13px;
+   width: 20%;
+   overflow: scroll;
+   background: white;
+   width: 256px;
+   box-shadow: 0px 0px 15px rgba(0,0,0,0.3);
+   border-left: #C5C5C5 1px solid;
+   box-sizing: border-box;
+   background: #ddd;
+   font-family: Tahoma, Geneva, sans-serif;
+   z-index: 1;
+   padding: 8px;
+   display: flex;
+   flex-direction: column;
+}
+
+#prominence > * {
+  width:  100%;
+} 
+
+ #sidebar .muted {
+   color: gray;
+   text-align: center;
+}
+ #sidebar h1 {
+   text-align: center;
+}
+ #sidebar div.content {
+   overflow: scroll;
+   flex: 1;
+}
+ #container #ruler {
+   top: 0px;
+   height: 24px;
+   border-bottom: 1px solid #000;
+   box-shadow: 0px -5px 15px #000;
+   background-color: #fff;
+   z-index: 100;
+   position: sticky;
+}
+ #container .person {
+   position: absolute;
+   padding: 3px;
+   height: 18px;
+   overflow: hidden;
+   white-space: nowrap;
+}
+#container .person:hover span {
+    padding: 3px 4px 5px 3px;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+ #container .year {
+   margin: 1px;
+   position: absolute;
+   float: left;
+}
+ #container .tick {
+   border-left: 1px solid #000;
+}
+ #container .person:hover {
+   cursor: pointer;
+   overflow: visible;
+   z-index: 100;
+}
+ #container .person:hover span {
+   background-color: initial;
+   display: inline-block;
+}
+ #container #chart {
+   top: 24px;
+}
+ .loading-message {
+   display: none;
+   margin: 0 auto;
+   text-align: center;
+   margin-top: 30px;
+   font-size: 18px;
+   color: #333333;
+}
+ svg .axis path, svg .axis line {
+   fill: none;
+   stroke: black;
+   shape-rendering: crispEdges;
+}
+ svg .axis text {
+   font-family: sans-serif;
+   font-size: 11px;
+}
+ 

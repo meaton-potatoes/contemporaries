@@ -6,6 +6,8 @@ const PERSON_HEIGHT = 26
 
 const yearLeftPixels = distanceFromNow => `${distanceFromNow * YEAR_WIDTH}px`
 
+const yearWidth = years => $('#content').width()
+
 const initialState = {
   settings: {
     filters: {
@@ -13,8 +15,8 @@ const initialState = {
       countries: {},
       prominence: 0,
       years: {
-        min: null,
-        max: null
+        min: parseInt($('#year-range #min').val()),
+        max: parseInt($('#year-range #max').val())
       }
     }
   },
@@ -28,7 +30,6 @@ const initialState = {
     min: null
   },
   defaultFiltersLoaded: false,
-  viewport: {}
 }
 
 const logBenchmarks = (name, callback) => {
@@ -45,19 +46,25 @@ class Timeline {
     this.registerSidebarCallbacks()
   }
 
+  setState(newState) {
+    this.state = newState
+    console.log(this.state)
+
+    this.render()
+  }
+
   filterPeople() {
     const { settings: { filters }, defaultFiltersLoaded } = this.state
-
-    // reset years before finding ruler max and min
-    this.state.ruler = { max: null, min: null }
 
     // reset 
     this.state.people.filteredByYear = {}
     this.state.people.filteredCount = 0
+    this.state.ruler = { max: null, min: null }
 
     this.state.people.all.forEach((person, i) => {
-      const { type, country, rating,to, from: birth } = person
+      const { type, country, rating, to, from: birth } = person
       const death = (to == 0 ? CURRENT_YEAR : to)
+
       // find default filters to save time on first loop
       if (!defaultFiltersLoaded) {
         filters.areas[type] = true
@@ -69,8 +76,13 @@ class Timeline {
       if (
           filters.areas[type] &&
           filters.countries[country] &&
-          (rating * 100 >= filters.prominence)
+          (rating * 100 >= filters.prominence) &&
+          (
+            filters.years.max >= death &&
+            filters.years.min <= birth
+          )
         ) {
+        // debugger
         this.state.people.filteredCount++
 
         // organize filtered people by year
@@ -80,9 +92,7 @@ class Timeline {
         }
 
         // find ruler.max
-        if (death == 0) {
-          this.state.ruler.max = CURRENT_YEAR
-        } else if (!this.state.ruler.max || death > this.state.ruler.max) {
+        if (!this.state.ruler.max || death > this.state.ruler.max) {
           this.state.ruler.max = death
         }
 
@@ -113,7 +123,8 @@ class Timeline {
       .css({ width: `${(max - min) * YEAR_WIDTH}px` })
       .mousemove(({ offsetX }) => {
         const year = Math.floor(CURRENT_YEAR - (offsetX / YEAR_WIDTH))
-        console.log(year, filteredByYear[String(year)])
+        // const peopleAliveThatYear = filteredByYear[String(year)]
+        console.log(year)
       })
   }
 
@@ -146,9 +157,9 @@ class Timeline {
         const personElement = $(`<div class='person'></div>`)
                                 .html($(`<span>${name}</span>`).css({ 'background-color': color }))
                                 .css({
-                                  'left': yearLeftPixels(max - death),
-                                  'top': personTopPixels(death, birth),
-                                  'width': `${((death - birth) * YEAR_WIDTH) - 5}px`,
+                                  left: yearLeftPixels(max - death),
+                                  top: personTopPixels(death, birth),
+                                  width: `${((death - birth) * YEAR_WIDTH) - 5}px`,
                                   'background-color': color
                                 })
                                 .click(() => window.open(link, '_blank'))
@@ -158,45 +169,51 @@ class Timeline {
     }
   }
 
-  renderFilteredValues() {
-    const { people: { filteredCount }, ruler, settings: { filters } } = this.state
+  updateFilteredCountDisplay() {
+    const { people: { filteredCount } } = this.state
     $('#filteredCount').html(`Displaying ${filteredCount.toLocaleString()} people`)
-    $('#max').val(filters.years.max || ruler.max)
-    $('#min').val(filters.years.min || ruler.min)
   }
 
   updateYearRange(key, value) {
-    this.state.settings.filters.years[key] = value
+    let newState = this.state
 
-    this.render()
+    newState.settings.filters.years[key] = parseInt(value)
+
+    this.setState(newState)
   }
 
   updateAreas(key, value) {
+    let newState = this.state
+
     if (key == ALL_ITEMS_IN_CATEGORY) {
-      Object.keys(this.state.settings.filters.areas).forEach(key => this.state.settings.filters.areas[key] = value)
+      Object.keys(newState.settings.filters.areas).forEach(key => newState.settings.filters.areas[key] = value)
     } else {
-      this.state.settings.filters.areas[key] = value
+      newState.settings.filters.areas[key] = value
     }
 
-    this.render()
+    this.setState(newState)
   }
 
   updateCountries(key, value) {
+    let newState = this.state
+
     if (key == ALL_ITEMS_IN_CATEGORY) {
-      Object.keys(this.state.settings.filters.countries).forEach(key => this.state.settings.filters.countries[key] = value)
+      Object.keys(newState.settings.filters.countries).forEach(key => newState.settings.filters.countries[key] = value)
     } else {
-      this.state.settings.filters.countries[key] = value
+      newState.settings.filters.countries[key] = value
     }
 
-    this.render()
+    this.setState(newState)
   }
 
   updateProminence(value) {
-    this.state.settings.filters.prominence = value
+    let newState = this.state
+
+    newState.settings.filters.prominence = value
 
     $('#prominence #limit').html(`${value}%`)
 
-    this.render()
+    this.setState(newState)
   }
 
   registerSidebarCallbacks() {
@@ -254,6 +271,7 @@ class Timeline {
     logBenchmarks('filterPeople', () => this.filterPeople())
     logBenchmarks('renderRuler', () => this.renderRuler())
     logBenchmarks('renderChart', () => this.renderChart())
-    logBenchmarks('renderFilteredValues', () => this.renderFilteredValues())
+    logBenchmarks('updateFilteredCountDisplay', () => this.updateFilteredCountDisplay())
+    window.state = this.state
   }
 }

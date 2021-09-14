@@ -111,8 +111,8 @@ class Timeline {
     }
     rulerElement
       .css({ width: `${(max - min) * YEAR_WIDTH}px` })
-      .mousemove(({ pageX }) => {
-        const year = Math.floor(CURRENT_YEAR - (pageX / YEAR_WIDTH))
+      .mousemove(({ offsetX }) => {
+        const year = Math.floor(CURRENT_YEAR - (offsetX / YEAR_WIDTH))
         console.log(year, filteredByYear[String(year)])
       })
   }

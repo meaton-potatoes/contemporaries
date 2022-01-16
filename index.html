@@ -1,290 +1,945 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset='utf-8'>
-		<title>Contemporaries</title>
+  <head>
+    <meta charset="utf-8" />
+    <title>Contemporaries</title>
 
-		<link rel='stylesheet' type='text/css' href='./assets/css/style.css'>
-	</head>
-	<body>
-		<div id='container'>
-	    <div id='content'>
-	      <div id='ruler'></div>
-	      <div id='chart'></div>
-	    </div>
+    <link rel="stylesheet" type="text/css" href="./assets/css/style.css" />
+  </head>
+  <body>
+    <div id="container">
+      <div id="content">
+        <div id="ruler"></div>
+        <div id="chart"></div>
+      </div>
 
-	    <div id='sidebar'>
-	    	<img id='show-about' class='cursor-pointer' src='./assets/images/page_curl.png'>
-	    	<h1>Settings</h1>
-	    	<div id='filteredCount' class='muted'></div>
-	    	<br />
+      <div id="sidebar">
+        <img
+          id="show-about"
+          class="cursor-pointer"
+          src="./assets/images/page_curl.png"
+        />
+        <h1>Settings</h1>
+        <div id="filteredCount" class="muted"></div>
+        <br />
 
-	    	<div id='year-range'>
-	    		<h2>Year Range</h2>
-	    		<div>
-	    			<span>
-		    			<label for='min'>From</label>
-		    			<input id='min' type="number" min="-2700" max="2021" step="1" value="0" />
-		    		</span>
-		    		<span>
-		    			<label for='max'>Until</label>
-		   				<input id='max' type="number" min="-2700" max="2021" step="1" value="1800" />
-		    		</span>
-	    		</div>
-	    	</div>
+        <div id="year-range">
+          <h2>Year Range</h2>
+          <div>
+            <span>
+              <label for="min">From</label>
+              <input
+                id="min"
+                type="number"
+                min="-2700"
+                max="2021"
+                step="1"
+                value="0"
+              />
+            </span>
+            <span>
+              <label for="max">Until</label>
+              <input
+                id="max"
+                type="number"
+                min="-2700"
+                max="2021"
+                step="1"
+                value="1800"
+              />
+            </span>
+          </div>
+        </div>
 
-	    	<div id='prominence'>
-	    		<label for='person-prominence'><h2>Limit by Prominence</h2></label>
-	    		<div id='limit' class='muted'><span id='limit-valie'>0%</span></div>
-		    	<input id='person-prominence' type='range' min='0' max='100' value='0'>
-	    	</div>
+        <div id="prominence">
+          <label for="person-prominence"><h2>Limit by Prominence</h2></label>
+          <div id="limit" class="muted">
+            <span id="limit-valie">0% Threshold</span>
+          </div>
+          <input
+            id="person-prominence"
+            type="range"
+            min="0"
+            max="100"
+            value="0"
+          />
+        </div>
 
-	    	<div id='areas'>
-		    	<h2>Areas of Interest</h2>
-		    	<div>
-		    		<span class='cursor-pointer select-all'>Select All</span>
-		    		<span> | </span>
-		    		<span class='cursor-pointer remove-all'>Remove All</span>
-		    	</div>
-		    	<label><input value='arts' type='checkbox' checked> Arts</label><br/>
-		    	<label><input value='business' type='checkbox' checked> Business</label><br/>
-		    	<label><input value='criminal' type='checkbox' checked> Criminal</label><br/>
-		  		<label><input value='explorer' type='checkbox' checked> Explorer</label><br/>
-		  		<label><input value='invention' type='checkbox' checked> Invention</label><br/>
-		  		<label><input value='military' type='checkbox' checked> Military</label><br/>
-		  		<label><input value='music' type='checkbox' checked> Music</label><br/>
-		  		<label><input value='politics' type='checkbox' checked> Politics</label><br/>
-		  		<label><input value='public' type='checkbox' checked> Public</label><br/>
-		  		<label><input value='religion' type='checkbox' checked> Religion</label><br/>
-		  		<label><input value='science' type='checkbox' checked> Science</label><br/>
-		  		<label><input value='sports' type='checkbox' checked> Sports</label><br/>
-		  		<label><input value='other' type='checkbox' checked> Other</label><br/>
-	  		</div>
+        <div id="areas">
+          <h2>Areas of Interest</h2>
+          <div>
+            <span class="cursor-pointer select-all">Select All</span>
+            <span> | </span>
+            <span class="cursor-pointer remove-all">Remove All</span>
+          </div>
+          <label><input value="arts" type="checkbox" checked /> Arts</label
+          ><br />
+          <label
+            ><input value="business" type="checkbox" checked /> Business</label
+          ><br />
+          <label
+            ><input value="criminal" type="checkbox" checked /> Criminal</label
+          ><br />
+          <label
+            ><input value="explorer" type="checkbox" checked /> Explorer</label
+          ><br />
+          <label
+            ><input value="invention" type="checkbox" checked />
+            Invention</label
+          ><br />
+          <label
+            ><input value="military" type="checkbox" checked /> Military</label
+          ><br />
+          <label><input value="music" type="checkbox" checked /> Music</label
+          ><br />
+          <label
+            ><input value="politics" type="checkbox" checked /> Politics</label
+          ><br />
+          <label><input value="public" type="checkbox" checked /> Public</label
+          ><br />
+          <label
+            ><input value="religion" type="checkbox" checked /> Religion</label
+          ><br />
+          <label
+            ><input value="science" type="checkbox" checked /> Science</label
+          ><br />
+          <label><input value="sports" type="checkbox" checked /> Sports</label
+          ><br />
+          <label><input value="other" type="checkbox" checked /> Other</label
+          ><br />
+        </div>
 
-	  		<div id='countries'>
-		    	<h2>Countries of Origin</h2>
-		    	<div>
-		    		<span class='cursor-pointer select-all'>Select All</span>
-		    		<span> | </span>
-		    		<span class='cursor-pointer remove-all'>Remove All</span>
-		    	</div>
-		    	<label><input value='Afghanistan' type='checkbox' checked='true'> Afghanistan</label><br/>
-		    	<label><input value='Albania' type='checkbox' checked='true'> Albania</label><br/>
-		    	<label><input value='Algeria' type='checkbox' checked='true'> Algeria</label><br/>
-		    	<label><input value='Andorra' type='checkbox' checked='true'> Andorra</label><br/>
-		    	<label><input value='Angola' type='checkbox' checked='true'> Angola</label><br/>
-		    	<label><input value='Antigua And Barbuda' type='checkbox' checked='true'> Antigua And Barbuda</label><br/>
-		    	<label><input value='Argentina' type='checkbox' checked='true'> Argentina</label><br/>
-		    	<label><input value='Armenia' type='checkbox' checked='true'> Armenia</label><br/>
-		    	<label><input value='Aruba' type='checkbox' checked='true'> Aruba</label><br/>
-		    	<label><input value='Australia' type='checkbox' checked='true'> Australia</label><br/>
-		    	<label><input value='Austria' type='checkbox' checked='true'> Austria</label><br/>
-		    	<label><input value='Azerbaijan' type='checkbox' checked='true'> Azerbaijan</label><br/>
-		    	<label><input value='Bahrain' type='checkbox' checked='true'> Bahrain</label><br/>
-		    	<label><input value='Bangladesh' type='checkbox' checked='true'> Bangladesh</label><br/>
-		    	<label><input value='Barbados' type='checkbox' checked='true'> Barbados</label><br/>
-		    	<label><input value='Belarus' type='checkbox' checked='true'> Belarus</label><br/>
-		    	<label><input value='Belgium' type='checkbox' checked='true'> Belgium</label><br/>
-		    	<label><input value='Benin' type='checkbox' checked='true'> Benin</label><br/>
-		    	<label><input value='Bermuda' type='checkbox' checked='true'> Bermuda</label><br/>
-		    	<label><input value='Bhutan' type='checkbox' checked='true'> Bhutan</label><br/>
-		    	<label><input value='Bolivia' type='checkbox' checked='true'> Bolivia</label><br/>
-		    	<label><input value='Bosnia And Herzegovina' type='checkbox' checked='true'> Bosnia And Herzegovina</label><br/>
-		    	<label><input value='Botswana' type='checkbox' checked='true'> Botswana</label><br/>
-		    	<label><input value='Brazil' type='checkbox' checked='true'> Brazil</label><br/>
-		    	<label><input value='Brunei Darussalam' type='checkbox' checked='true'> Brunei Darussalam</label><br/>
-		    	<label><input value='Bulgaria' type='checkbox' checked='true'> Bulgaria</label><br/>
-		    	<label><input value='Burkina Faso' type='checkbox' checked='true'> Burkina Faso</label><br/>
-		    	<label><input value='Burundi' type='checkbox' checked='true'> Burundi</label><br/>
-		    	<label><input value='Cambodia' type='checkbox' checked='true'> Cambodia</label><br/>
-		    	<label><input value='Cameroon' type='checkbox' checked='true'> Cameroon</label><br/>
-		    	<label><input value='Canada' type='checkbox' checked='true'> Canada</label><br/>
-		    	<label><input value='Cape Verde' type='checkbox' checked='true'> Cape Verde</label><br/>
-		    	<label><input value='Central African Republic' type='checkbox' checked='true'> Central African Republic</label><br/>
-		    	<label><input value='Chad' type='checkbox' checked='true'> Chad</label><br/>
-		    	<label><input value='Chile' type='checkbox' checked='true'> Chile</label><br/>
-		    	<label><input value='China' type='checkbox' checked='true'> China</label><br/>
-		    	<label><input value='Colombia' type='checkbox' checked='true'> Colombia</label><br/>
-		    	<label><input value='Congo' type='checkbox' checked='true'> Congo</label><br/>
-		    	<label><input value='Costa Rica' type='checkbox' checked='true'> Costa Rica</label><br/>
-		    	<label><input value='Croatia' type='checkbox' checked='true'> Croatia</label><br/>
-		    	<label><input value='Cuba' type='checkbox' checked='true'> Cuba</label><br/>
-		    	<label><input value='Cyprus' type='checkbox' checked='true'> Cyprus</label><br/>
-		    	<label><input value='Czech Republic' type='checkbox' checked='true'> Czech Republic</label><br/>
-		    	<label><input value='Democratic Republic Of Congo' type='checkbox' checked='true'>Democratic Republic Of Congo</label><br/>
-		    	<label><input value='Denmark' type='checkbox' checked='true'> Denmark</label><br/>
-		    	<label><input value='Djibouti' type='checkbox' checked='true'> Djibouti</label><br/>
-		    	<label><input value='Dominican Republic' type='checkbox' checked='true'> Dominican Republic</label><br/>
-		    	<label><input value='Ecuador' type='checkbox' checked='true'> Ecuador</label><br/>
-		    	<label><input value='Egypt' type='checkbox' checked='true'> Egypt</label><br/>
-		    	<label><input value='El Salvador' type='checkbox' checked='true'> El Salvador</label><br/>
-		    	<label><input value='Equatorial Guinea' type='checkbox' checked='true'> Equatorial Guinea</label><br/>
-		    	<label><input value='Eritrea' type='checkbox' checked='true'> Eritrea</label><br/>
-		    	<label><input value='Estonia' type='checkbox' checked='true'> Estonia</label><br/>
-		    	<label><input value='Ethiopia' type='checkbox' checked='true'> Ethiopia</label><br/>
-		    	<label><input value='Finland' type='checkbox' checked='true'> Finland</label><br/>
-		    	<label><input value='France' type='checkbox' checked='true'> France</label><br/>
-		    	<label><input value='Gambia' type='checkbox' checked='true'> Gambia</label><br/>
-		    	<label><input value='Georgia' type='checkbox' checked='true'> Georgia</label><br/>
-		    	<label><input value='Germany' type='checkbox' checked='true'> Germany</label><br/>
-		    	<label><input value='Ghana' type='checkbox' checked='true'> Ghana</label><br/>
-		    	<label><input value='Gibraltar' type='checkbox' checked='true'> Gibraltar</label><br/>
-		    	<label><input value='Greece' type='checkbox' checked='true'> Greece</label><br/>
-		    	<label><input value='Greenland' type='checkbox' checked='true'> Greenland</label><br/>
-		    	<label><input value='Guatemala' type='checkbox' checked='true'> Guatemala</label><br/>
-		    	<label><input value='Guinea' type='checkbox' checked='true'> Guinea</label><br/>
-		    	<label><input value='Guinea-Bissau' type='checkbox' checked='true'> Guinea-Bissau</label><br/>
-		    	<label><input value='Guyana' type='checkbox' checked='true'> Guyana</label><br/>
-		    	<label><input value='Haiti' type='checkbox' checked='true'> Haiti</label><br/>
-		    	<label><input value='Honduras' type='checkbox' checked='true'> Honduras</label><br/>
-		    	<label><input value='Hong Kong' type='checkbox' checked='true'> Hong Kong</label><br/>
-		    	<label><input value='Hungary' type='checkbox' checked='true'> Hungary</label><br/>
-		    	<label><input value='Iceland' type='checkbox' checked='true'> Iceland</label><br/>
-		    	<label><input value='India' type='checkbox' checked='true'> India</label><br/>
-		    	<label><input value='Indonesia' type='checkbox' checked='true'> Indonesia</label><br/>
-		    	<label><input value='Iran' type='checkbox' checked='true'> Iran</label><br/>
-		    	<label><input value='Iraq' type='checkbox' checked='true'> Iraq</label><br/>
-		    	<label><input value='Ireland' type='checkbox' checked='true'> Ireland</label><br/>
-		    	<label><input value='Isle Of Man' type='checkbox' checked='true'> Isle Of Man</label><br/>
-		    	<label><input value='Israel' type='checkbox' checked='true'> Israel</label><br/>
-		    	<label><input value='Italy' type='checkbox' checked='true'> Italy</label><br/>
-		    	<label><input value='Ivory Coast' type='checkbox' checked='true'> Ivory Coast</label><br/>
-		    	<label><input value='Jamaica' type='checkbox' checked='true'> Jamaica</label><br/>
-		    	<label><input value='Japan' type='checkbox' checked='true'> Japan</label><br/>
-		    	<label><input value='Jersey' type='checkbox' checked='true'> Jersey</label><br/>
-		    	<label><input value='Jordan' type='checkbox' checked='true'> Jordan</label><br/>
-		    	<label><input value='Kazakhstan' type='checkbox' checked='true'> Kazakhstan</label><br/>
-		    	<label><input value='Kenya' type='checkbox' checked='true'> Kenya</label><br/>
-		    	<label><input value='Kiribati' type='checkbox' checked='true'> Kiribati</label><br/>
-		    	<label><input value='Kosovo' type='checkbox' checked='true'> Kosovo</label><br/>
-		    	<label><input value='Kuwait' type='checkbox' checked='true'> Kuwait</label><br/>
-		    	<label><input value='Kyrgyzstan' type='checkbox' checked='true'> Kyrgyzstan</label><br/>
-		    	<label><input value='Laos' type='checkbox' checked='true'> Laos</label><br/>
-		    	<label><input value='Latvia' type='checkbox' checked='true'> Latvia</label><br/>
-		    	<label><input value='Lebanon' type='checkbox' checked='true'> Lebanon</label><br/>
-		    	<label><input value='Lesotho' type='checkbox' checked='true'> Lesotho</label><br/>
-		    	<label><input value='Liberia' type='checkbox' checked='true'> Liberia</label><br/>
-		    	<label><input value='Libya' type='checkbox' checked='true'> Libya</label><br/>
-		    	<label><input value='Libyan Arab Jamahiriya' type='checkbox' checked='true'> Libyan Arab Jamahiriya</label><br/>
-		    	<label><input value='Liechtenstein' type='checkbox' checked='true'> Liechtenstein</label><br/>
-		    	<label><input value='Lithuania' type='checkbox' checked='true'> Lithuania</label><br/>
-		    	<label><input value='Luxembourg' type='checkbox' checked='true'> Luxembourg</label><br/>
-		    	<label><input value='Madagascar' type='checkbox' checked='true'> Madagascar</label><br/>
-		    	<label><input value='Malawi' type='checkbox' checked='true'> Malawi</label><br/>
-		    	<label><input value='Malaysia' type='checkbox' checked='true'> Malaysia</label><br/>
-		    	<label><input value='Maldives' type='checkbox' checked='true'> Maldives</label><br/>
-		    	<label><input value='Mali' type='checkbox' checked='true'> Mali</label><br/>
-		    	<label><input value='Malta' type='checkbox' checked='true'> Malta</label><br/>
-		    	<label><input value='Mauritania' type='checkbox' checked='true'> Mauritania</label><br/>
-		    	<label><input value='Mauritius' type='checkbox' checked='true'> Mauritius</label><br/>
-		    	<label><input value='Mexico' type='checkbox' checked='true'> Mexico</label><br/>
-		    	<label><input value='Micronesia' type='checkbox' checked='true'> Micronesia</label><br/>
-		    	<label><input value='Moldova' type='checkbox' checked='true'> Moldova</label><br/>
-		    	<label><input value='Monaco' type='checkbox' checked='true'> Monaco</label><br/>
-		    	<label><input value='Mongolia' type='checkbox' checked='true'> Mongolia</label><br/>
-		    	<label><input value='Montenegro' type='checkbox' checked='true'> Montenegro</label><br/>
-		    	<label><input value='Morocco' type='checkbox' checked='true'> Morocco</label><br/>
-		    	<label><input value='Mozambique' type='checkbox' checked='true'> Mozambique</label><br/>
-		    	<label><input value='Myanmar [Burma]' type='checkbox' checked='true'> Myanmar [Burma]</label><br/>
-		    	<label><input value='Namibia' type='checkbox' checked='true'> Namibia</label><br/>
-		    	<label><input value='Nauru' type='checkbox' checked='true'> Nauru</label><br/>
-		    	<label><input value='Nepal' type='checkbox' checked='true'> Nepal</label><br/>
-		    	<label><input value='Netherlands' type='checkbox' checked='true'> Netherlands</label><br/>
-		    	<label><input value='New Caledonia' type='checkbox' checked='true'> New Caledonia</label><br/>
-		    	<label><input value='New Zealand' type='checkbox' checked='true'> New Zealand</label><br/>
-		    	<label><input value='Nicaragua' type='checkbox' checked='true'> Nicaragua</label><br/>
-		    	<label><input value='Nigeria' type='checkbox' checked='true'> Nigeria</label><br/>
-		    	<label><input value='North Korea' type='checkbox' checked='true'> North Korea</label><br/>
-		    	<label><input value='Norway' type='checkbox' checked='true'> Norway</label><br/>
-		    	<label><input value='Oman' type='checkbox' checked='true'> Oman</label><br/>
-		    	<label><input value='Pakistan' type='checkbox' checked='true'> Pakistan</label><br/>
-		    	<label><input value='Palestine' type='checkbox' checked='true'> Palestine</label><br/>
-		    	<label><input value='Panama' type='checkbox' checked='true'> Panama</label><br/>
-		    	<label><input value='Paraguay' type='checkbox' checked='true'> Paraguay</label><br/>
-		    	<label><input value='Peru' type='checkbox' checked='true'> Peru</label><br/>
-		    	<label><input value='Philippines' type='checkbox' checked='true'> Philippines</label><br/>
-		    	<label><input value='Poland' type='checkbox' checked='true'> Poland</label><br/>
-		    	<label><input value='Portugal' type='checkbox' checked='true'> Portugal</label><br/>
-		    	<label><input value='Prussia' type='checkbox' checked='true'> Prussia</label><br/>
-		    	<label><input value='Puerto Rico' type='checkbox' checked='true'> Puerto Rico</label><br/>
-		    	<label><input value='Qatar' type='checkbox' checked='true'> Qatar</label><br/>
-		    	<label><input value='Republic Of Macedonia' type='checkbox' checked='true'> Republic Of Macedonia</label><br/>
-		    	<label><input value='Romania' type='checkbox' checked='true'> Romania</label><br/>
-		    	<label><input value='Russia' type='checkbox' checked='true'> Russia</label><br/>
-		    	<label><input value='Rwanda' type='checkbox' checked='true'> Rwanda</label><br/>
-		    	<label><input value='Saint Kitts And Nevis' type='checkbox' checked='true'> Saint Kitts And Nevis</label><br/>
-		    	<label><input value='Saint Lucia' type='checkbox' checked='true'> Saint Lucia</label><br/>
-		    	<label><input value='Samoa' type='checkbox' checked='true'> Samoa</label><br/>
-		    	<label><input value='Sao Tome And Principe' type='checkbox' checked='true'> Sao Tome And Principe</label><br/>
-		    	<label><input value='Saudi Arabia' type='checkbox' checked='true'> Saudi Arabia</label><br/>
-		    	<label><input value='Senegal' type='checkbox' checked='true'> Senegal</label><br/>
-		    	<label><input value='Serbia' type='checkbox' checked='true'> Serbia</label><br/>
-		    	<label><input value='Seychelles' type='checkbox' checked='true'> Seychelles</label><br/>
-		    	<label><input value='Sierra Leone' type='checkbox' checked='true'> Sierra Leone</label><br/>
-		    	<label><input value='Singapore' type='checkbox' checked='true'> Singapore</label><br/>
-		    	<label><input value='Slovakia' type='checkbox' checked='true'> Slovakia</label><br/>
-		    	<label><input value='Slovenia' type='checkbox' checked='true'> Slovenia</label><br/>
-		    	<label><input value='Somalia' type='checkbox' checked='true'> Somalia</label><br/>
-		    	<label><input value='South Africa' type='checkbox' checked='true'> South Africa</label><br/>
-		    	<label><input value='South Korea' type='checkbox' checked='true'> South Korea</label><br/>
-		    	<label><input value='South Sudan' type='checkbox' checked='true'> South Sudan</label><br/>
-		    	<label><input value='Spain' type='checkbox' checked='true'> Spain</label><br/>
-		    	<label><input value='Sri Lanka' type='checkbox' checked='true'> Sri Lanka</label><br/>
-		    	<label><input value='Sudan' type='checkbox' checked='true'> Sudan</label><br/>
-		    	<label><input value='Suriname' type='checkbox' checked='true'> Suriname</label><br/>
-		    	<label><input value='Swaziland' type='checkbox' checked='true'> Swaziland</label><br/>
-		    	<label><input value='Sweden' type='checkbox' checked='true'> Sweden</label><br/>
-		    	<label><input value='Switzerland' type='checkbox' checked='true'> Switzerland</label><br/>
-		    	<label><input value='Syria' type='checkbox' checked='true'> Syria</label><br/>
-		    	<label><input value='São Tomé And Príncipe' type='checkbox' checked='true'> São Tomé And Príncipe</label><br/>
-		    	<label><input value='Taiwan' type='checkbox' checked='true'> Taiwan</label><br/>
-		    	<label><input value='Tajikistan' type='checkbox' checked='true'> Tajikistan</label><br/>
-		    	<label><input value='Tanzania' type='checkbox' checked='true'> Tanzania</label><br/>
-		    	<label><input value='Thailand' type='checkbox' checked='true'> Thailand</label><br/>
-		    	<label><input value='The Netherlands' type='checkbox' checked='true'> The Netherlands</label><br/>
-		    	<label><input value='Timor-Leste' type='checkbox' checked='true'> Timor-Leste</label><br/>
-		    	<label><input value='Togo' type='checkbox' checked='true'> Togo</label><br/>
-		    	<label><input value='Tonga' type='checkbox' checked='true'> Tonga</label><br/>
-		    	<label><input value='Trinidad And Tobago' type='checkbox' checked='true'> Trinidad And Tobago</label><br/>
-		    	<label><input value='Tunisia' type='checkbox' checked='true'> Tunisia</label><br/>
-		    	<label><input value='Turkey' type='checkbox' checked='true'> Turkey</label><br/>
-		    	<label><input value='Turkmenistan' type='checkbox' checked='true'> Turkmenistan</label><br/>
-		    	<label><input value='Uganda' type='checkbox' checked='true'> Uganda</label><br/>
-		    	<label><input value='Ukraine' type='checkbox' checked='true'> Ukraine</label><br/>
-		    	<label><input value='United Arab Emirates' type='checkbox' checked='true'> United Arab Emirates</label><br/>
-		    	<label><input value='United Kingdom' type='checkbox' checked='true'> United Kingdom</label><br/>
-		    	<label><input value='United States' type='checkbox' checked='true'> United States</label><br/>
-		    	<label><input value='Unknown' type='checkbox' checked='true'> Unknown</label><br/>
-		    	<label><input value='Uruguay' type='checkbox' checked='true'> Uruguay</label><br/>
-		    	<label><input value='Us Virgin Islands' type='checkbox' checked='true'> Us Virgin Islands</label><br/>
-		    	<label><input value='Uzbekistan' type='checkbox' checked='true'> Uzbekistan</label><br/>
-		    	<label><input value='Vanuatu' type='checkbox' checked='true'> Vanuatu</label><br/>
-		    	<label><input value='Venezuela' type='checkbox' checked='true'> Venezuela</label><br/>
-		    	<label><input value='Vietnam' type='checkbox' checked='true'> Vietnam</label><br/>
-		    	<label><input value='Yemen' type='checkbox' checked='true'> Yemen</label><br/>
-		    	<label><input value='Zambia' type='checkbox' checked='true'> Zambia</label><br/>
-		    	<label><input value='Zimbabwe' type='checkbox' checked='true'> Zimbabwe</label><br/>
-		    </div>
-	  	</div>
+        <div id="countries">
+          <h2>Countries of Origin</h2>
+          <div>
+            <span class="cursor-pointer select-all">Select All</span>
+            <span> | </span>
+            <span class="cursor-pointer remove-all">Remove All</span>
+          </div>
+          <label
+            ><input value="Afghanistan" type="checkbox" checked="true" />
+            Afghanistan</label
+          ><br />
+          <label
+            ><input value="Albania" type="checkbox" checked="true" />
+            Albania</label
+          ><br />
+          <label
+            ><input value="Algeria" type="checkbox" checked="true" />
+            Algeria</label
+          ><br />
+          <label
+            ><input value="Andorra" type="checkbox" checked="true" />
+            Andorra</label
+          ><br />
+          <label
+            ><input value="Angola" type="checkbox" checked="true" />
+            Angola</label
+          ><br />
+          <label
+            ><input
+              value="Antigua And Barbuda"
+              type="checkbox"
+              checked="true"
+            />
+            Antigua And Barbuda</label
+          ><br />
+          <label
+            ><input value="Argentina" type="checkbox" checked="true" />
+            Argentina</label
+          ><br />
+          <label
+            ><input value="Armenia" type="checkbox" checked="true" />
+            Armenia</label
+          ><br />
+          <label
+            ><input value="Aruba" type="checkbox" checked="true" /> Aruba</label
+          ><br />
+          <label
+            ><input value="Australia" type="checkbox" checked="true" />
+            Australia</label
+          ><br />
+          <label
+            ><input value="Austria" type="checkbox" checked="true" />
+            Austria</label
+          ><br />
+          <label
+            ><input value="Azerbaijan" type="checkbox" checked="true" />
+            Azerbaijan</label
+          ><br />
+          <label
+            ><input value="Bahrain" type="checkbox" checked="true" />
+            Bahrain</label
+          ><br />
+          <label
+            ><input value="Bangladesh" type="checkbox" checked="true" />
+            Bangladesh</label
+          ><br />
+          <label
+            ><input value="Barbados" type="checkbox" checked="true" />
+            Barbados</label
+          ><br />
+          <label
+            ><input value="Belarus" type="checkbox" checked="true" />
+            Belarus</label
+          ><br />
+          <label
+            ><input value="Belgium" type="checkbox" checked="true" />
+            Belgium</label
+          ><br />
+          <label
+            ><input value="Benin" type="checkbox" checked="true" /> Benin</label
+          ><br />
+          <label
+            ><input value="Bermuda" type="checkbox" checked="true" />
+            Bermuda</label
+          ><br />
+          <label
+            ><input value="Bhutan" type="checkbox" checked="true" />
+            Bhutan</label
+          ><br />
+          <label
+            ><input value="Bolivia" type="checkbox" checked="true" />
+            Bolivia</label
+          ><br />
+          <label
+            ><input
+              value="Bosnia And Herzegovina"
+              type="checkbox"
+              checked="true"
+            />
+            Bosnia And Herzegovina</label
+          ><br />
+          <label
+            ><input value="Botswana" type="checkbox" checked="true" />
+            Botswana</label
+          ><br />
+          <label
+            ><input value="Brazil" type="checkbox" checked="true" />
+            Brazil</label
+          ><br />
+          <label
+            ><input value="Brunei Darussalam" type="checkbox" checked="true" />
+            Brunei Darussalam</label
+          ><br />
+          <label
+            ><input value="Bulgaria" type="checkbox" checked="true" />
+            Bulgaria</label
+          ><br />
+          <label
+            ><input value="Burkina Faso" type="checkbox" checked="true" />
+            Burkina Faso</label
+          ><br />
+          <label
+            ><input value="Burundi" type="checkbox" checked="true" />
+            Burundi</label
+          ><br />
+          <label
+            ><input value="Cambodia" type="checkbox" checked="true" />
+            Cambodia</label
+          ><br />
+          <label
+            ><input value="Cameroon" type="checkbox" checked="true" />
+            Cameroon</label
+          ><br />
+          <label
+            ><input value="Canada" type="checkbox" checked="true" />
+            Canada</label
+          ><br />
+          <label
+            ><input value="Cape Verde" type="checkbox" checked="true" /> Cape
+            Verde</label
+          ><br />
+          <label
+            ><input
+              value="Central African Republic"
+              type="checkbox"
+              checked="true"
+            />
+            Central African Republic</label
+          ><br />
+          <label
+            ><input value="Chad" type="checkbox" checked="true" /> Chad</label
+          ><br />
+          <label
+            ><input value="Chile" type="checkbox" checked="true" /> Chile</label
+          ><br />
+          <label
+            ><input value="China" type="checkbox" checked="true" /> China</label
+          ><br />
+          <label
+            ><input value="Colombia" type="checkbox" checked="true" />
+            Colombia</label
+          ><br />
+          <label
+            ><input value="Congo" type="checkbox" checked="true" /> Congo</label
+          ><br />
+          <label
+            ><input value="Costa Rica" type="checkbox" checked="true" /> Costa
+            Rica</label
+          ><br />
+          <label
+            ><input value="Croatia" type="checkbox" checked="true" />
+            Croatia</label
+          ><br />
+          <label
+            ><input value="Cuba" type="checkbox" checked="true" /> Cuba</label
+          ><br />
+          <label
+            ><input value="Cyprus" type="checkbox" checked="true" />
+            Cyprus</label
+          ><br />
+          <label
+            ><input value="Czech Republic" type="checkbox" checked="true" />
+            Czech Republic</label
+          ><br />
+          <label
+            ><input
+              value="Democratic Republic Of Congo"
+              type="checkbox"
+              checked="true"
+            />Democratic Republic Of Congo</label
+          ><br />
+          <label
+            ><input value="Denmark" type="checkbox" checked="true" />
+            Denmark</label
+          ><br />
+          <label
+            ><input value="Djibouti" type="checkbox" checked="true" />
+            Djibouti</label
+          ><br />
+          <label
+            ><input value="Dominican Republic" type="checkbox" checked="true" />
+            Dominican Republic</label
+          ><br />
+          <label
+            ><input value="Ecuador" type="checkbox" checked="true" />
+            Ecuador</label
+          ><br />
+          <label
+            ><input value="Egypt" type="checkbox" checked="true" /> Egypt</label
+          ><br />
+          <label
+            ><input value="El Salvador" type="checkbox" checked="true" /> El
+            Salvador</label
+          ><br />
+          <label
+            ><input value="Equatorial Guinea" type="checkbox" checked="true" />
+            Equatorial Guinea</label
+          ><br />
+          <label
+            ><input value="Eritrea" type="checkbox" checked="true" />
+            Eritrea</label
+          ><br />
+          <label
+            ><input value="Estonia" type="checkbox" checked="true" />
+            Estonia</label
+          ><br />
+          <label
+            ><input value="Ethiopia" type="checkbox" checked="true" />
+            Ethiopia</label
+          ><br />
+          <label
+            ><input value="Finland" type="checkbox" checked="true" />
+            Finland</label
+          ><br />
+          <label
+            ><input value="France" type="checkbox" checked="true" />
+            France</label
+          ><br />
+          <label
+            ><input value="Gambia" type="checkbox" checked="true" />
+            Gambia</label
+          ><br />
+          <label
+            ><input value="Georgia" type="checkbox" checked="true" />
+            Georgia</label
+          ><br />
+          <label
+            ><input value="Germany" type="checkbox" checked="true" />
+            Germany</label
+          ><br />
+          <label
+            ><input value="Ghana" type="checkbox" checked="true" /> Ghana</label
+          ><br />
+          <label
+            ><input value="Gibraltar" type="checkbox" checked="true" />
+            Gibraltar</label
+          ><br />
+          <label
+            ><input value="Greece" type="checkbox" checked="true" />
+            Greece</label
+          ><br />
+          <label
+            ><input value="Greenland" type="checkbox" checked="true" />
+            Greenland</label
+          ><br />
+          <label
+            ><input value="Guatemala" type="checkbox" checked="true" />
+            Guatemala</label
+          ><br />
+          <label
+            ><input value="Guinea" type="checkbox" checked="true" />
+            Guinea</label
+          ><br />
+          <label
+            ><input value="Guinea-Bissau" type="checkbox" checked="true" />
+            Guinea-Bissau</label
+          ><br />
+          <label
+            ><input value="Guyana" type="checkbox" checked="true" />
+            Guyana</label
+          ><br />
+          <label
+            ><input value="Haiti" type="checkbox" checked="true" /> Haiti</label
+          ><br />
+          <label
+            ><input value="Honduras" type="checkbox" checked="true" />
+            Honduras</label
+          ><br />
+          <label
+            ><input value="Hong Kong" type="checkbox" checked="true" /> Hong
+            Kong</label
+          ><br />
+          <label
+            ><input value="Hungary" type="checkbox" checked="true" />
+            Hungary</label
+          ><br />
+          <label
+            ><input value="Iceland" type="checkbox" checked="true" />
+            Iceland</label
+          ><br />
+          <label
+            ><input value="India" type="checkbox" checked="true" /> India</label
+          ><br />
+          <label
+            ><input value="Indonesia" type="checkbox" checked="true" />
+            Indonesia</label
+          ><br />
+          <label
+            ><input value="Iran" type="checkbox" checked="true" /> Iran</label
+          ><br />
+          <label
+            ><input value="Iraq" type="checkbox" checked="true" /> Iraq</label
+          ><br />
+          <label
+            ><input value="Ireland" type="checkbox" checked="true" />
+            Ireland</label
+          ><br />
+          <label
+            ><input value="Isle Of Man" type="checkbox" checked="true" /> Isle
+            Of Man</label
+          ><br />
+          <label
+            ><input value="Israel" type="checkbox" checked="true" />
+            Israel</label
+          ><br />
+          <label
+            ><input value="Italy" type="checkbox" checked="true" /> Italy</label
+          ><br />
+          <label
+            ><input value="Ivory Coast" type="checkbox" checked="true" /> Ivory
+            Coast</label
+          ><br />
+          <label
+            ><input value="Jamaica" type="checkbox" checked="true" />
+            Jamaica</label
+          ><br />
+          <label
+            ><input value="Japan" type="checkbox" checked="true" /> Japan</label
+          ><br />
+          <label
+            ><input value="Jersey" type="checkbox" checked="true" />
+            Jersey</label
+          ><br />
+          <label
+            ><input value="Jordan" type="checkbox" checked="true" />
+            Jordan</label
+          ><br />
+          <label
+            ><input value="Kazakhstan" type="checkbox" checked="true" />
+            Kazakhstan</label
+          ><br />
+          <label
+            ><input value="Kenya" type="checkbox" checked="true" /> Kenya</label
+          ><br />
+          <label
+            ><input value="Kiribati" type="checkbox" checked="true" />
+            Kiribati</label
+          ><br />
+          <label
+            ><input value="Kosovo" type="checkbox" checked="true" />
+            Kosovo</label
+          ><br />
+          <label
+            ><input value="Kuwait" type="checkbox" checked="true" />
+            Kuwait</label
+          ><br />
+          <label
+            ><input value="Kyrgyzstan" type="checkbox" checked="true" />
+            Kyrgyzstan</label
+          ><br />
+          <label
+            ><input value="Laos" type="checkbox" checked="true" /> Laos</label
+          ><br />
+          <label
+            ><input value="Latvia" type="checkbox" checked="true" />
+            Latvia</label
+          ><br />
+          <label
+            ><input value="Lebanon" type="checkbox" checked="true" />
+            Lebanon</label
+          ><br />
+          <label
+            ><input value="Lesotho" type="checkbox" checked="true" />
+            Lesotho</label
+          ><br />
+          <label
+            ><input value="Liberia" type="checkbox" checked="true" />
+            Liberia</label
+          ><br />
+          <label
+            ><input value="Libya" type="checkbox" checked="true" /> Libya</label
+          ><br />
+          <label
+            ><input
+              value="Libyan Arab Jamahiriya"
+              type="checkbox"
+              checked="true"
+            />
+            Libyan Arab Jamahiriya</label
+          ><br />
+          <label
+            ><input value="Liechtenstein" type="checkbox" checked="true" />
+            Liechtenstein</label
+          ><br />
+          <label
+            ><input value="Lithuania" type="checkbox" checked="true" />
+            Lithuania</label
+          ><br />
+          <label
+            ><input value="Luxembourg" type="checkbox" checked="true" />
+            Luxembourg</label
+          ><br />
+          <label
+            ><input value="Madagascar" type="checkbox" checked="true" />
+            Madagascar</label
+          ><br />
+          <label
+            ><input value="Malawi" type="checkbox" checked="true" />
+            Malawi</label
+          ><br />
+          <label
+            ><input value="Malaysia" type="checkbox" checked="true" />
+            Malaysia</label
+          ><br />
+          <label
+            ><input value="Maldives" type="checkbox" checked="true" />
+            Maldives</label
+          ><br />
+          <label
+            ><input value="Mali" type="checkbox" checked="true" /> Mali</label
+          ><br />
+          <label
+            ><input value="Malta" type="checkbox" checked="true" /> Malta</label
+          ><br />
+          <label
+            ><input value="Mauritania" type="checkbox" checked="true" />
+            Mauritania</label
+          ><br />
+          <label
+            ><input value="Mauritius" type="checkbox" checked="true" />
+            Mauritius</label
+          ><br />
+          <label
+            ><input value="Mexico" type="checkbox" checked="true" />
+            Mexico</label
+          ><br />
+          <label
+            ><input value="Micronesia" type="checkbox" checked="true" />
+            Micronesia</label
+          ><br />
+          <label
+            ><input value="Moldova" type="checkbox" checked="true" />
+            Moldova</label
+          ><br />
+          <label
+            ><input value="Monaco" type="checkbox" checked="true" />
+            Monaco</label
+          ><br />
+          <label
+            ><input value="Mongolia" type="checkbox" checked="true" />
+            Mongolia</label
+          ><br />
+          <label
+            ><input value="Montenegro" type="checkbox" checked="true" />
+            Montenegro</label
+          ><br />
+          <label
+            ><input value="Morocco" type="checkbox" checked="true" />
+            Morocco</label
+          ><br />
+          <label
+            ><input value="Mozambique" type="checkbox" checked="true" />
+            Mozambique</label
+          ><br />
+          <label
+            ><input value="Myanmar [Burma]" type="checkbox" checked="true" />
+            Myanmar [Burma]</label
+          ><br />
+          <label
+            ><input value="Namibia" type="checkbox" checked="true" />
+            Namibia</label
+          ><br />
+          <label
+            ><input value="Nauru" type="checkbox" checked="true" /> Nauru</label
+          ><br />
+          <label
+            ><input value="Nepal" type="checkbox" checked="true" /> Nepal</label
+          ><br />
+          <label
+            ><input value="Netherlands" type="checkbox" checked="true" />
+            Netherlands</label
+          ><br />
+          <label
+            ><input value="New Caledonia" type="checkbox" checked="true" /> New
+            Caledonia</label
+          ><br />
+          <label
+            ><input value="New Zealand" type="checkbox" checked="true" /> New
+            Zealand</label
+          ><br />
+          <label
+            ><input value="Nicaragua" type="checkbox" checked="true" />
+            Nicaragua</label
+          ><br />
+          <label
+            ><input value="Nigeria" type="checkbox" checked="true" />
+            Nigeria</label
+          ><br />
+          <label
+            ><input value="North Korea" type="checkbox" checked="true" /> North
+            Korea</label
+          ><br />
+          <label
+            ><input value="Norway" type="checkbox" checked="true" />
+            Norway</label
+          ><br />
+          <label
+            ><input value="Oman" type="checkbox" checked="true" /> Oman</label
+          ><br />
+          <label
+            ><input value="Pakistan" type="checkbox" checked="true" />
+            Pakistan</label
+          ><br />
+          <label
+            ><input value="Palestine" type="checkbox" checked="true" />
+            Palestine</label
+          ><br />
+          <label
+            ><input value="Panama" type="checkbox" checked="true" />
+            Panama</label
+          ><br />
+          <label
+            ><input value="Paraguay" type="checkbox" checked="true" />
+            Paraguay</label
+          ><br />
+          <label
+            ><input value="Peru" type="checkbox" checked="true" /> Peru</label
+          ><br />
+          <label
+            ><input value="Philippines" type="checkbox" checked="true" />
+            Philippines</label
+          ><br />
+          <label
+            ><input value="Poland" type="checkbox" checked="true" />
+            Poland</label
+          ><br />
+          <label
+            ><input value="Portugal" type="checkbox" checked="true" />
+            Portugal</label
+          ><br />
+          <label
+            ><input value="Prussia" type="checkbox" checked="true" />
+            Prussia</label
+          ><br />
+          <label
+            ><input value="Puerto Rico" type="checkbox" checked="true" /> Puerto
+            Rico</label
+          ><br />
+          <label
+            ><input value="Qatar" type="checkbox" checked="true" /> Qatar</label
+          ><br />
+          <label
+            ><input
+              value="Republic Of Macedonia"
+              type="checkbox"
+              checked="true"
+            />
+            Republic Of Macedonia</label
+          ><br />
+          <label
+            ><input value="Romania" type="checkbox" checked="true" />
+            Romania</label
+          ><br />
+          <label
+            ><input value="Russia" type="checkbox" checked="true" />
+            Russia</label
+          ><br />
+          <label
+            ><input value="Rwanda" type="checkbox" checked="true" />
+            Rwanda</label
+          ><br />
+          <label
+            ><input
+              value="Saint Kitts And Nevis"
+              type="checkbox"
+              checked="true"
+            />
+            Saint Kitts And Nevis</label
+          ><br />
+          <label
+            ><input value="Saint Lucia" type="checkbox" checked="true" /> Saint
+            Lucia</label
+          ><br />
+          <label
+            ><input value="Samoa" type="checkbox" checked="true" /> Samoa</label
+          ><br />
+          <label
+            ><input
+              value="Sao Tome And Principe"
+              type="checkbox"
+              checked="true"
+            />
+            Sao Tome And Principe</label
+          ><br />
+          <label
+            ><input value="Saudi Arabia" type="checkbox" checked="true" /> Saudi
+            Arabia</label
+          ><br />
+          <label
+            ><input value="Senegal" type="checkbox" checked="true" />
+            Senegal</label
+          ><br />
+          <label
+            ><input value="Serbia" type="checkbox" checked="true" />
+            Serbia</label
+          ><br />
+          <label
+            ><input value="Seychelles" type="checkbox" checked="true" />
+            Seychelles</label
+          ><br />
+          <label
+            ><input value="Sierra Leone" type="checkbox" checked="true" />
+            Sierra Leone</label
+          ><br />
+          <label
+            ><input value="Singapore" type="checkbox" checked="true" />
+            Singapore</label
+          ><br />
+          <label
+            ><input value="Slovakia" type="checkbox" checked="true" />
+            Slovakia</label
+          ><br />
+          <label
+            ><input value="Slovenia" type="checkbox" checked="true" />
+            Slovenia</label
+          ><br />
+          <label
+            ><input value="Somalia" type="checkbox" checked="true" />
+            Somalia</label
+          ><br />
+          <label
+            ><input value="South Africa" type="checkbox" checked="true" /> South
+            Africa</label
+          ><br />
+          <label
+            ><input value="South Korea" type="checkbox" checked="true" /> South
+            Korea</label
+          ><br />
+          <label
+            ><input value="South Sudan" type="checkbox" checked="true" /> South
+            Sudan</label
+          ><br />
+          <label
+            ><input value="Spain" type="checkbox" checked="true" /> Spain</label
+          ><br />
+          <label
+            ><input value="Sri Lanka" type="checkbox" checked="true" /> Sri
+            Lanka</label
+          ><br />
+          <label
+            ><input value="Sudan" type="checkbox" checked="true" /> Sudan</label
+          ><br />
+          <label
+            ><input value="Suriname" type="checkbox" checked="true" />
+            Suriname</label
+          ><br />
+          <label
+            ><input value="Swaziland" type="checkbox" checked="true" />
+            Swaziland</label
+          ><br />
+          <label
+            ><input value="Sweden" type="checkbox" checked="true" />
+            Sweden</label
+          ><br />
+          <label
+            ><input value="Switzerland" type="checkbox" checked="true" />
+            Switzerland</label
+          ><br />
+          <label
+            ><input value="Syria" type="checkbox" checked="true" /> Syria</label
+          ><br />
+          <label
+            ><input
+              value="São Tomé And Príncipe"
+              type="checkbox"
+              checked="true"
+            />
+            São Tomé And Príncipe</label
+          ><br />
+          <label
+            ><input value="Taiwan" type="checkbox" checked="true" />
+            Taiwan</label
+          ><br />
+          <label
+            ><input value="Tajikistan" type="checkbox" checked="true" />
+            Tajikistan</label
+          ><br />
+          <label
+            ><input value="Tanzania" type="checkbox" checked="true" />
+            Tanzania</label
+          ><br />
+          <label
+            ><input value="Thailand" type="checkbox" checked="true" />
+            Thailand</label
+          ><br />
+          <label
+            ><input value="The Netherlands" type="checkbox" checked="true" />
+            The Netherlands</label
+          ><br />
+          <label
+            ><input value="Timor-Leste" type="checkbox" checked="true" />
+            Timor-Leste</label
+          ><br />
+          <label
+            ><input value="Togo" type="checkbox" checked="true" /> Togo</label
+          ><br />
+          <label
+            ><input value="Tonga" type="checkbox" checked="true" /> Tonga</label
+          ><br />
+          <label
+            ><input
+              value="Trinidad And Tobago"
+              type="checkbox"
+              checked="true"
+            />
+            Trinidad And Tobago</label
+          ><br />
+          <label
+            ><input value="Tunisia" type="checkbox" checked="true" />
+            Tunisia</label
+          ><br />
+          <label
+            ><input value="Turkey" type="checkbox" checked="true" />
+            Turkey</label
+          ><br />
+          <label
+            ><input value="Turkmenistan" type="checkbox" checked="true" />
+            Turkmenistan</label
+          ><br />
+          <label
+            ><input value="Uganda" type="checkbox" checked="true" />
+            Uganda</label
+          ><br />
+          <label
+            ><input value="Ukraine" type="checkbox" checked="true" />
+            Ukraine</label
+          ><br />
+          <label
+            ><input
+              value="United Arab Emirates"
+              type="checkbox"
+              checked="true"
+            />
+            United Arab Emirates</label
+          ><br />
+          <label
+            ><input value="United Kingdom" type="checkbox" checked="true" />
+            United Kingdom</label
+          ><br />
+          <label
+            ><input value="United States" type="checkbox" checked="true" />
+            United States</label
+          ><br />
+          <label
+            ><input value="Unknown" type="checkbox" checked="true" />
+            Unknown</label
+          ><br />
+          <label
+            ><input value="Uruguay" type="checkbox" checked="true" />
+            Uruguay</label
+          ><br />
+          <label
+            ><input value="Us Virgin Islands" type="checkbox" checked="true" />
+            Us Virgin Islands</label
+          ><br />
+          <label
+            ><input value="Uzbekistan" type="checkbox" checked="true" />
+            Uzbekistan</label
+          ><br />
+          <label
+            ><input value="Vanuatu" type="checkbox" checked="true" />
+            Vanuatu</label
+          ><br />
+          <label
+            ><input value="Venezuela" type="checkbox" checked="true" />
+            Venezuela</label
+          ><br />
+          <label
+            ><input value="Vietnam" type="checkbox" checked="true" />
+            Vietnam</label
+          ><br />
+          <label
+            ><input value="Yemen" type="checkbox" checked="true" /> Yemen</label
+          ><br />
+          <label
+            ><input value="Zambia" type="checkbox" checked="true" />
+            Zambia</label
+          ><br />
+          <label
+            ><input value="Zimbabwe" type="checkbox" checked="true" />
+            Zimbabwe</label
+          ><br />
+        </div>
+      </div>
 
-	  	<div id='about'>
-	  		<div id='description'>
-	  			<h2>About</h2>
-	  			<p>
-	  				This is an iteration of the <a href='https://github.com/ybogdanov/history-timeline' target='_blank'>Map of Contemporaries</a>.
-	  			</p>
-	  		</div>
-	  	</div>
-	  </div>
+      <div id="about">
+        <div id="description">
+          <h2>About</h2>
+          <p>
+            This is an iteration of the
+            <a
+              href="https://github.com/ybogdanov/history-timeline"
+              target="_blank"
+              >Map of Contemporaries</a
+            >.
+          </p>
+        </div>
+      </div>
+    </div>
 
-		<script src='https://code.jquery.com/jquery-3.6.0.slim.min.js' integrity='sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=' crossorigin='anonymous'></script>
-		<script type='text/javascript' src='./assets/data/data_10000.js'></script>
-		<script type='text/javascript' src='./assets/js/script.js'></script>
-		<script>
-	    $(document).ready(() => {
-	      window.timeline = new Timeline(window.people)
-	      window.timeline.render()
-	    })
-	  </script>
-	</body>
+    <script type="text/javascript" src="./assets/data/data_10000.js"></script>
+    <script type="text/javascript" src="./assets/js/script.js"></script>
+    <script>
+      document.addEventListener(
+        "DOMContentLoaded",
+        function () {
+          window.timeline = new Timeline(window.people);
+          window.timeline.render();
+        },
+        false
+      );
+    </script>
+  </body>
 </html>

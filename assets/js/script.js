@@ -1,48 +1,3 @@
-const CURRENT_YEAR = new Date().getFullYear();
-const ALL_ITEMS_IN_CATEGORY = "ALL_ITEMS_IN_CATEGORY";
-const COLORS = [
-  "#E29EFF",
-  "#5ee440",
-  "#f25f10",
-  "#f3c401",
-  "#7088ed",
-  "#e06394",
-  "#5be0ad",
-  "#be8058",
-  "#709b32",
-  "#52dbed",
-  "#cb68cf",
-  "#ec605a",
-  "#c4cf8e",
-  "#0398ce",
-  "#a183b1",
-  "#579c74",
-  "#fcb1ef",
-  "#b4d744",
-  "#fe4878",
-  "#eac56d",
-  "#33a254",
-  "#ef4db2",
-  "#6e9592",
-];
-const YEAR_WIDTH = 3;
-const PERSON_HEIGHT = 26;
-
-const generateElement = (elementType, attributes) => {
-  const classList = (attributes.classes || []).join(" ");
-  const element = Object.assign(document.createElement(elementType), {
-    ...attributes,
-    classList,
-  });
-  Object.assign(element.style, attributes.style);
-  Object.keys(attributes.eventListeners || {}).forEach((eventType) => {
-    element.addEventListener(eventType, attributes.eventListeners[eventType]);
-  });
-  return element;
-};
-
-const yearLeftPixels = (distanceFromNow) => `${distanceFromNow * YEAR_WIDTH}px`;
-
 const initialState = {
   settings: {
     filters: {
@@ -53,10 +8,14 @@ const initialState = {
         min: parseInt(document.querySelector("#year-range #min").value),
         max: parseInt(document.querySelector("#year-range #max").value),
       },
+      featured: (() => {
+        const url = new URL(window.location);
+        return url.searchParams.get("person");
+      })(),
     },
   },
   people: {
-    all: [],
+    all: people,
     filteredByYear: {},
     filteredCount: 0,
   },
@@ -64,61 +23,51 @@ const initialState = {
     max: null,
     min: null,
   },
-  defaultFiltersLoaded: false,
-};
-
-const logBenchmarks = (name, callback) => {
-  const now = new Date();
-  callback();
-  console.log(name, new Date() - now);
 };
 
 class Timeline {
+  YEAR_WIDTH = 3;
   state = initialState;
 
-  constructor(people) {
-    this.state.people.all = people;
+  constructor() {
+    this.render();
     this.registerSidebarCallbacks();
   }
 
   setState(newState) {
     this.state = newState;
-    console.log(this.state);
 
-    this.render();
+    setTimeout(() => this.render(), 0);
   }
 
   filterPeople() {
     const {
       state: {
         settings: { filters },
-        defaultFiltersLoaded,
       },
     } = this;
 
     // reset
     this.state.people.filteredByYear = {};
     this.state.people.filteredCount = 0;
-    this.state.ruler = { max: null, min: null };
 
-    this.state.people.all.forEach((person, i) => {
+    const featuredPerson = this.findPersonByName(filters.featured);
+    this.state.ruler = {
+      min: featuredPerson?.from,
+      max: featuredPerson?.to,
+    };
+
+    this.state.people.all.forEach((person) => {
       const { type, country, rating, to, from: birth } = person;
       const death = to == 0 ? CURRENT_YEAR : to;
 
-      // find default filters to save time on first loop
-      if (!defaultFiltersLoaded) {
-        filters.areas[type] = true;
-        filters.countries[country] = true;
-        this.state.defaultFiltersLoaded = true;
-      }
-
       // if person fits filters
       if (
-        filters.areas[type] &&
-        filters.countries[country] &&
+        [true, undefined].includes(filters.areas[type]) &&
+        [true, undefined].includes(filters.countries[country]) &&
         rating * 100 >= filters.prominence &&
-        filters.years.max >= death &&
-        filters.years.min <= birth
+        (!filters.years.max || filters.years.max >= death) &&
+        (!filters.years.min || filters.years.min <= birth)
       ) {
         this.state.people.filteredCount++;
 
@@ -129,14 +78,16 @@ class Timeline {
           this.state.people.filteredByYear[year].push(person);
         }
 
-        // find ruler.max
-        if (!this.state.ruler.max || death > this.state.ruler.max) {
-          this.state.ruler.max = death;
-        }
+        if (!filters.featured) {
+          // find ruler.max
+          if (!this.state.ruler.max || death > this.state.ruler.max) {
+            this.state.ruler.max = death;
+          }
 
-        // find ruler.min
-        if (!this.state.ruler.min || birth < this.state.ruler.min) {
-          this.state.ruler.min = birth;
+          // find ruler.min
+          if (!this.state.ruler.min || birth < this.state.ruler.min) {
+            this.state.ruler.min = birth;
+          }
         }
       }
     });
@@ -145,7 +96,6 @@ class Timeline {
   renderRuler() {
     const {
       ruler: { min, max },
-      people: { filteredByYear },
     } = this.state;
 
     let rulerElement = document.getElementById("ruler");
@@ -156,7 +106,7 @@ class Timeline {
         classes: ["year", showTick && "tick"].filter((x) => x),
         innerHTML: showTick ? year : "",
         style: {
-          left: yearLeftPixels(max - year),
+          left: this.yearLeftPixels(max - year),
         },
       });
 
@@ -164,29 +114,30 @@ class Timeline {
     }
 
     Object.assign(rulerElement.style, {
-      width: (max - min) * YEAR_WIDTH,
+      width: (max - min) * this.YEAR_WIDTH,
     });
-    // rulerElement.addEventListener('mousemove', ({ offsetX }) => {
-    //   const year = Math.floor(CURRENT_YEAR - (offsetX / YEAR_WIDTH))
-    //   console.log(year)
-    // })
   }
 
   renderChart() {
     const {
       ruler: { min, max },
-      people: { filteredByYear, all },
+      people: { filteredByYear },
+      settings: {
+        filters: { featured },
+      },
     } = this.state;
 
     let chartElement = document.getElementById("chart");
     chartElement.innerHTML = "";
 
     let rowTracker = [];
+
     const personTopPixels = (death, birth) => {
       for (let i = 0; i <= rowTracker.length; i++) {
         if (!rowTracker[i] || rowTracker[i] > death) {
           rowTracker[i] = birth;
-          return `${25 + PERSON_HEIGHT * i}px`;
+          // 26 == person tile height
+          return `${25 + 26 * i}px`;
         }
       }
     };
@@ -209,22 +160,44 @@ class Timeline {
             return false;
           }
 
+          const isFeatured = featured == link;
           const death = to == 0 ? CURRENT_YEAR : to;
           people[i].backgroundColor ||= backgroundColor;
-          chartElement.appendChild(
-            generateElement("div", {
-              classes: ["person"],
-              innerHTML: `<span style='background-color: ${backgroundColor};'>${name}</span>`,
-              style: {
-                left: yearLeftPixels(max - death),
-                top: personTopPixels(death, birth),
-                width: `${(death - birth) * YEAR_WIDTH - 5}px`,
-                backgroundColor,
-              },
-              eventListeners: { click: () => window.open(link, "_blank") },
-            })
-          );
           chartedPeople[name] = true;
+
+          const wikiButton = generateElement("a", {
+            innerHTML: '<div class="person-icon wiki"/>',
+            href: link,
+            target: "_blank",
+            classes: ["cursor-pointer"],
+          });
+          const personSpan = generateElement("span", {
+            innerHTML: name,
+            style: {
+              backgroundColor: backgroundColor,
+            },
+            eventListeners: {
+              onmouseenter: (el) => (el.style.display = "inline-block"),
+              onmouseleave: (el) => (el.style.display = "none"),
+            },
+          });
+          const person = generateElement("div", {
+            classes: ["person", isFeatured && "featured"],
+            eventListeners: {
+              click: () => {
+                window.location.href = `?person=${name}`;
+              },
+            },
+            style: {
+              left: this.yearLeftPixels(max - death),
+              top: personTopPixels(death, birth),
+              width: `${(death - birth) * this.YEAR_WIDTH - 5}px`,
+              backgroundColor: isFeatured ? "" : backgroundColor,
+            },
+          });
+          personSpan.appendChild(wikiButton);
+          person.appendChild(personSpan);
+          chartElement.appendChild(person);
         }
       );
     }
@@ -246,25 +219,6 @@ class Timeline {
     newState.settings.filters.years[key] = parseInt(value);
 
     this.setState(newState);
-  }
-
-  updateAllFilterItems(filter, value) {
-    const {
-      state: {
-        settings: { filters },
-      },
-    } = this;
-    const updatedItems = Object.keys(filters[filter]).reduce(
-      (obj, itemName) => {
-        obj[itemName] = value;
-        return obj;
-      },
-      {}
-    );
-    this.setState({
-      ...this.state,
-      settings: { filters: { ...filters, [filter]: updatedItems } },
-    });
   }
 
   updateProminence(prominence) {
@@ -297,94 +251,26 @@ class Timeline {
         this.updateProminence(value)
       );
 
-    // areas
-    document.querySelectorAll("#areas input[type=checkbox]").forEach((el) => {
-      el.addEventListener("change", ({ currentTarget: { checked, value } }) => {
-        const {
-          state: {
-            settings: { filters },
-          },
-        } = this;
-        this.setState({
-          ...this.state,
-          settings: {
-            filters: {
-              ...filters,
-              areas: { ...filters.areas, [value]: checked },
-            },
-          },
+    ["areas", "countries"].forEach((thing) => {
+      const {
+        state: {
+          settings: { filters },
+        },
+      } = this;
+
+      document
+        .getElementById(thing)
+        .addEventListener("change", ({ target: { options } }) => {
+          let { [thing]: thingFilter } = filters;
+          Array.prototype.forEach.call(options, ({ selected, value }) => {
+            thingFilter = { ...thingFilter, [value]: selected };
+          });
+          this.setState({
+            ...this.state,
+            settings: { filters: { ...filters, [thing]: thingFilter } },
+          });
         });
-      });
     });
-
-    document
-      .querySelector("#areas .select-all")
-      .addEventListener("click", (_) => {
-        document
-          .querySelectorAll("#areas input[type=checkbox]")
-          .forEach((el) => {
-            el.checked = true;
-            this.updateAllFilterItems("areas", true);
-          });
-      });
-
-    document
-      .querySelector("#areas .remove-all")
-      .addEventListener("click", (_) => {
-        document
-          .querySelectorAll("#areas input[type=checkbox]")
-          .forEach((el) => {
-            el.checked = false;
-            this.updateAllFilterItems("areas", false);
-          });
-      });
-
-    // countries
-    document
-      .querySelectorAll("#countries input[type=checkbox]")
-      .forEach((el) => {
-        el.addEventListener(
-          "change",
-          ({ currentTarget: { checked, value } }) => {
-            const {
-              state: {
-                settings: { filters },
-              },
-            } = this;
-            this.setState({
-              ...this.state,
-              settings: {
-                filters: {
-                  ...filters,
-                  countries: { ...filters.countries, [value]: checked },
-                },
-              },
-            });
-          }
-        );
-      });
-
-    document
-      .querySelector("#countries .select-all")
-      .addEventListener("click", (_) => {
-        document
-          .querySelectorAll("#countries input[type=checkbox]")
-          .forEach((el) => {
-            el.checked = true;
-            this.updateAllFilterItems("countries", true);
-          });
-      });
-
-    document
-      .querySelector("#countries .remove-all")
-      .addEventListener("click", (_) => {
-        document
-          .querySelectorAll("#countries input[type=checkbox]")
-          .forEach((el) => {
-            el.checked = false;
-            this.updateAllFilterItems("countries", false);
-          });
-      });
 
     document
       .getElementById("show-about")
@@ -400,14 +286,21 @@ class Timeline {
       );
   }
 
+  findPersonByName = (personName) =>
+    this.state.people.all.find(({ name }) => name === personName);
+
+  yearLeftPixels = (distanceFromNow) =>
+    `${distanceFromNow * this.YEAR_WIDTH}px`;
+
   render() {
-    console.log("render");
     logBenchmarks("filterPeople", () => this.filterPeople());
     logBenchmarks("renderRuler", () => this.renderRuler());
     logBenchmarks("renderChart", () => this.renderChart());
     logBenchmarks("updateFilteredCountDisplay", () =>
       this.updateFilteredCountDisplay()
     );
+    document.querySelector("#year-range #max").value = this.state.ruler.max;
+    document.querySelector("#year-range #min").value = this.state.ruler.min;
     window.state = this.state;
   }
 }
